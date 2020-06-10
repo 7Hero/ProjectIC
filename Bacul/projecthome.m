@@ -106,9 +106,9 @@ i=1;
      error(i) = FirstData(i) - nivel(i);
      error_teo(i) = FirstData(i) - nivel_teo(i);
       
-     v= get(handles.selecion,'value'); 
+     id= get(handles.selecion,'value'); 
 
-       switch v 
+       switch id 
          case 1 
                 break ;
          case 2 
@@ -161,6 +161,21 @@ i=1;
                   control_teo (i) = 70; 
              end 
            case 5
+                 error_teo(i)= 0;
+                  nivel_teo(i)= 0;
+                  control_teo(i)=0;
+               if(nivel(i)>60)
+                    control(i)=0;
+                end
+                if(nivel(i)<40)
+                    control(i)=100;
+                end
+                if(nivel(i)<60 && i>1 && error(i)<error(i-1))
+                    control(i)=100;
+                end
+                if(nivel(i)>40 && i>1 && error(i)>error(i-1))
+                    control(i)=0;
+                end
                
        end
     
@@ -257,9 +272,9 @@ function selecion_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns selecion contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from selecion
- v= get(handles.selecion,'value'); 
+ id= get(handles.selecion,'value'); 
      
-      switch v
+      switch id
           case 1
               set (handles.sistema,'String','You didnt select anything'); 
           
@@ -269,7 +284,12 @@ function selecion_Callback(hObject, eventdata, handles)
               
           case 3 
               set (handles.sistema,'String','PD controller');
-        
+          case 4 
+              set (handles.sistema,'String','PID controller');
+          case 5 
+              set (handles.sistema,'String','FEEDBACK RELAY');
+         
+         
               
         
                    
