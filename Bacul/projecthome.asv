@@ -99,7 +99,7 @@ i=1;
      n = DAQ_Read_SIM(DataIn,DataOut);
      nivel(i) = n
      
-     n_teo = DAQ_Read_SIM_teoretic(DataIn_teo,DataOut_teo);
+     n_teo = DAQ_Read_SIM_teoretic(DataIn,DataOut);
      nivel_teo(i) = n_teo
      
      
@@ -111,11 +111,11 @@ i=1;
        switch v 
          case 1 
                 break ;
-         case 2 
+         case 2 % SIN REG
                 control (i) = error(i); 
                 control_teo(i) = error_teo(i);
                 
-         case 3  
+         case 3  %PD DESING
              if i == 1  
               control(i)=13.263*error(i);
               control_teo(i) = 13.263*error_teo(i);
