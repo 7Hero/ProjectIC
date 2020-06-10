@@ -96,10 +96,10 @@ i=1;
      tic
      FirstData(i)=input;
 
-     n = DAQ_Read_SIM(DataIn,DataOut);
+     n = DAQ_Read_SIM(DataIn,DataOut,handles);
      nivel(i) = n
      
-     n_teo = DAQ_Read_SIM_teoretic(DataIn_teo,DataOut_teo);
+     n_teo = DAQ_Read_SIM_teoretic(DataIn_teo,DataOut_teo,handles);
      nivel_teo(i) = n_teo
      
      
@@ -112,7 +112,7 @@ i=1;
          case 1 
                 break ;
          case 2 
-                control (i) = error(i); 
+                control (i) = error(i)*5; 
                 control_teo(i) = error_teo(i);
                 
          case 3  
@@ -135,6 +135,33 @@ i=1;
              if control_teo (i) <= 0 
                   control_teo (i) = 0; 
              end
+            case 4
+             if i == 1
+               control(i) = 58.223*error(i);
+               control_teo(i) = 58.223*error_teo(i);
+             end
+             if i == 2 
+               control(i)=58.223*error(i)-20.378*error(i-1);
+               control_teo(i)=58.223*error_teo(i)-20.378*error_teo(i-1);
+             end
+             if i > 2
+                 control(i)=58.223*error(i)-20.378*error(i-1)-4.3667*error(i-2)+control_teo(i-1);
+                 control_teo(i)=58.223*error_teo(i)-20.378*error_teo(i-1)-4.3667*error_teo(i-2)+control_teo(i-1);
+             end 
+             if control (i) > 1000 
+                  control (i) = 2000; 
+             end 
+             if control (i) <= 0 
+                  control (i) = 70; 
+             end 
+             if control_teo (i) > 1000 
+                  control_teo (i) = 2000; 
+             end 
+             if control_teo (i) <= 0 
+                  control_teo (i) = 70; 
+             end 
+           case 5
+               
        end
     
     draw_graphs( i,error,nivel,control,handles)
